@@ -1,0 +1,155 @@
+/* For information on how to create your own theme, please refer to:
+http://ionicframework.com/docs/theming/ */
+
+/**
+ * 固定应用壳层为浅色白底，不随系统 / iPad 深色模式切换，
+ * 避免 ion-content、页面底色等被 Ionic 深色调色板改掉。
+ * （乐谱深色/浅色墨迹仅由文件工具内手动切换，不跟系统主题。）
+ */
+
+/* ===== 语义化颜色 Token ===== */
+:root {
+  /* 主色 */
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-primary-soft: #eff6ff;
+  --color-primary-contrast: #ffffff;
+
+  /* 背景 / 表面 */
+  --color-bg: #ffffff;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f8fafc;
+
+  /* 文本 */
+  --color-text: #1e293b;
+  --color-text-secondary: #64748b;
+  --color-text-tertiary: #94a3b8;
+
+  /* 边框 */
+  --color-border: #e2e8f0;
+  --color-border-light: #f1f5f9;
+
+  /* 功能色 */
+  --color-danger: #dc2626;
+  --color-danger-soft: #fee2e2;
+  --color-success: #16a34a;
+  --color-warning: #ea580c;
+
+  /* 播放 */
+  --color-playback: #3b82f6;
+  --color-playback-bg: #dbeafe;
+
+  /* 遮罩 */
+  --color-overlay: rgba(15, 23, 42, 0.42);
+  --color-overlay-heavy: rgba(15, 23, 42, 0.82);
+
+  /* 暗色面板（乐谱深色模式用） */
+  --color-bg-dark: #0f172a;
+  --color-surface-dark: #1e293b;
+  --color-text-dark: #f1f5f9;
+  --color-text-secondary-dark: #94a3b8;
+  --color-border-dark: rgba(148, 163, 184, 0.24);
+
+  /* ===== 接管 Ionic 调色板 ===== */
+  /* -- primary -- */
+  --ion-color-primary: #2563eb;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-shade: #1d4ed8;
+  --ion-color-primary-tint: #3b82f6;
+
+  /* -- secondary -- */
+  --ion-color-secondary: #3dc2ff;
+  --ion-color-secondary-contrast: #000000;
+  --ion-color-secondary-shade: #36abe0;
+  --ion-color-secondary-tint: #50c8ff;
+
+  /* -- tertiary -- */
+  --ion-color-tertiary: #8b5cf6;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-shade: #7c3aed;
+  --ion-color-tertiary-tint: #a78bfa;
+
+  /* -- success -- */
+  --ion-color-success: #16a34a;
+  --ion-color-success-contrast: #ffffff;
+  --ion-color-success-shade: #15803d;
+  --ion-color-success-tint: #22c55e;
+
+  /* -- warning -- */
+  --ion-color-warning: #ea580c;
+  --ion-color-warning-contrast: #ffffff;
+  --ion-color-warning-shade: #c2410c;
+  --ion-color-warning-tint: #f97316;
+
+  /* -- danger -- */
+  --ion-color-danger: #dc2626;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-shade: #b91c1c;
+  --ion-color-danger-tint: #ef4444;
+
+  /* -- medium -- */
+  --ion-color-medium: #64748b;
+  --ion-color-medium-contrast: #ffffff;
+  --ion-color-medium-shade: #475569;
+  --ion-color-medium-tint: #94a3b8;
+
+  /* -- light -- */
+  --ion-color-light: #f8fafc;
+  --ion-color-light-contrast: #1e293b;
+  --ion-color-light-shade: #e2e8f0;
+  --ion-color-light-tint: #ffffff;
+
+  /* -- 全局背景/文字 -- */
+  --ion-background-color: #ffffff;
+  --ion-text-color: #1e293b;
+  --ion-border-color: #e2e8f0;
+
+  /* ===== Ionic 组件级默认变量 ===== */
+  /* ion-toolbar */
+  --ion-toolbar-background: #ffffff;
+  --ion-toolbar-color: #1e293b;
+  --ion-toolbar-border-color: #e2e8f0;
+
+  /* ion-header */
+  --ion-header-background: #ffffff;
+
+  /* ion-footer */
+  --ion-footer-background: #ffffff;
+
+  /* ion-item */
+  --ion-item-background: #ffffff;
+  --ion-item-color: #1e293b;
+  --ion-item-border-color: #e2e8f0;
+
+  /* ion-button 内部默认 */
+  --ion-button-color: #ffffff;
+
+  /* 圆角 */
+  --ion-border-radius: 8px;
+
+  /* 字号 */
+  --ion-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+
+  color-scheme: light;
+}
+
+html,
+body {
+  background-color: var(--ion-background-color);
+}
+
+ion-app {
+  background-color: var(--ion-background-color);
+}
+
+ion-content {
+  --background: var(--ion-background-color);
+}
+
+/* ion-toolbar 内 ion-button 保持透明背景，避免 Ionic 自动添加底色遮盖自定义样式 */
+ion-toolbar ion-button[fill='clear'] {
+  --background: transparent;
+  --background-hover: transparent;
+  --background-activated: transparent;
+  --box-shadow: none;
+}

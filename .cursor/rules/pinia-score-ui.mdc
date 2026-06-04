@@ -1,0 +1,36 @@
+---
+description: Pinia store conventions aligned with scoreUi.ts for five-line-staff
+globs: "src/stores/**"
+alwaysApply: false
+---
+
+# Pinia stores (five-line-staff)
+
+Follow `src/stores/scoreUi.ts` as the canonical pattern.
+
+## Naming
+
+- Export: `useScoreUiStore` (camelCase + `Store` suffix).
+- `defineStore('score-ui', …)` — **kebab-case** store id matching the domain.
+- Domain types exported beside the store: `ScoreViewMode`, `ScoreRenderEngine`, etc.
+- Mutations via **`setXxx` / `toggleXxx` actions**, not raw state writes from components.
+
+## State shape
+
+- **scoreUi** holds UI prefs only: view mode, render engine, page dimensions, annotation chrome, scroll-follow, etc.
+- Score file content, `pagesSvg`, cache keys, playback runtime — belong in composables / page refs until explicitly moved to a store.
+
+## Persistence
+
+- Use `pinia-plugin-persistedstate` with explicit `key` (e.g. `five-line-staff:score-ui:v3`) and `pick` whitelist — do not persist ephemeral session data by default.
+
+## Usage in components (see HomePage)
+
+```ts
+const scoreUiStore = useScoreUiStore()
+const { viewMode, renderEngine, annotationMode } = storeToRefs(scoreUiStore)
+// mutations: scoreUiStore.setViewMode('scroll')
+```
+
+- Never destructure store state without `storeToRefs` (reactivity breaks).
+- Do not duplicate persisted fields in local `ref()` unless needed for transient UI.

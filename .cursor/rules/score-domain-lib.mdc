@@ -1,0 +1,34 @@
+---
+description: Score/MusicXML/OSMD domain logic boundaries in src/lib for five-line-staff
+globs: "src/lib/**"
+alwaysApply: false
+---
+
+# Score domain (`src/lib`)
+
+## Module rules
+
+- **Pure TypeScript** — no `vue`, `pinia`, or `@ionic/vue` imports in `src/lib/**`.
+- One concern per file (existing examples: `osmd.ts`, `scoreCache.ts`, `musicXmlAnnotations.ts`, `orchestraPlayer.ts`).
+- Export typed functions/types; avoid default exports unless the file already uses them.
+
+## Boundaries
+
+| Layer | Responsibility |
+|-------|----------------|
+| `src/lib/*` | Parse/render/export, IndexedDB cache, playback math, MusicXML annotation protocol |
+| `src/composables/*` | Vue lifecycle, wiring lib + stores + refs |
+| `src/views/**` | Ionic UI, gestures, panel layout |
+
+## MusicXML annotations (do not break)
+
+- App-owned directions use id prefix `fls-ann-*`; embedding/export via `musicXmlAnnotations.ts` (`withEmbeddedAnnotations`, `stripAnnotationArtifacts`).
+- Do not rename or duplicate annotation id scheme without updating parse/export and tests.
+
+## Imports in lib
+
+- Prefer relative imports within `lib/` or `@/lib/...` from views/composables — never import from `.vue` files into `lib/`.
+
+## When extending HomePage-related behavior
+
+- Add or extend a `src/lib/<domain>.ts` helper first, then call it from composables or `HomePage.vue` — do not grow inline XML/DOM logic in the page.

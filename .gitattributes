@@ -1,0 +1,1 @@
+# 音色库 *.sf2 / *.sf3 不纳入 Git（见 .gitignore）；本地可选放置，生产走远程 URL + IndexedDB 缓存。

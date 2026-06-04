@@ -1,0 +1,33 @@
+---
+description: Ionic Vue page layout, component placement, and HomePage decomposition for five-line-staff
+globs: "**/*.vue"
+alwaysApply: false
+---
+
+# Vue pages and components (five-line-staff)
+
+## File placement
+
+- **Pages**: `src/views/<feature>/HomePage.vue` or `index.vue` — root `ion-page` + `ion-content`.
+- **Page-only UI**: `src/views/<feature>/components/<PascalCase>.vue` (e.g. `AppHeader`, `FileToolPanel`, `AnnotationToolPanel`, `PagePagerFooter`).
+- **Cross-route reuse**: `src/components/<PascalCase>.vue` (e.g. `ScorePinchViewport`, `MusicScoreLoading`).
+
+## HomePage orchestration
+
+- `HomePage.vue` coordinates panels, loading, and score session refs; **do not** add OSMD / Verovio / MusicXML / IndexedDB logic inline.
+- Import score engines, cache, and annotation helpers from `@/lib/*` only.
+- New feature logic from `HomePage` → `src/composables/useScore*.ts` first (e.g. `useScoreLoader`, `useAnnotations`), then wire the page.
+
+## Panel components (match existing panels)
+
+- **Props down, emits up** — mirror `AppHeader` / `FileToolPanel`: typed props, kebab-case emit names (`toggle-file-tool`, `export-annotated-musicxml`).
+- Panels stay presentational; no direct `useScoreUiStore()` unless the panel is purely UI prefs (prefer parent passing store-backed props).
+
+## Script setup
+
+- Use `<script setup lang="ts">`, `defineProps` / `defineEmits` with explicit types.
+- Use `@/` path alias for imports.
+
+## After generating or editing `.vue`
+
+- Run `npm run lint` and ensure `vue-tsc` passes (`npm run build` includes it).

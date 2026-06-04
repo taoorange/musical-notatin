@@ -1,0 +1,7 @@
+{
+  "name": "five-line-staff",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}

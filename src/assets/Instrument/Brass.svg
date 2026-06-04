@@ -1,0 +1,63 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 定义渐变 -->
+  <defs>
+    <!-- 黑色管身光泽渐变 -->
+    <linearGradient id="clarinetBody" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1a1a1a;stop-opacity:1" />
+      <stop offset="40%" style="stop-color:#333333;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#000000;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- 银色按键渐变 -->
+    <linearGradient id="silverKeys" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#e0e0e0;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#a0a0a0;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- 乐器组，旋转一定角度 -->
+  <g transform="rotate(-15 100 100)">
+    
+    <!-- 1. 喇叭口 (底部) -->
+    <path d="M85 160 L 85 140 L 115 140 L 125 160 Z" fill="url(#clarinetBody)" stroke="#000" stroke-width="1"/>
+    <!-- 喇叭口边缘装饰环 -->
+    <path d="M86 158 L 124 158" stroke="#333" stroke-width="2"/>
+
+    <!-- 2. 下管身 (较长的一段) -->
+    <rect x="90" y="60" width="20" height="80" fill="url(#clarinetBody)" />
+    
+    <!-- 3. 上管身 (较短的一段) -->
+    <rect x="90" y="30" width="20" height="30" fill="url(#clarinetBody)" />
+
+    <!-- 4. 连接处 (软木塞区域) -->
+    <rect x="89" y="55" width="22" height="5" fill="#4a3000" />
+
+    <!-- 5. 按键系统 (简化) -->
+    
+    <!-- 上管按键 -->
+    <circle cx="100" cy="40" r="4" fill="url(#silverKeys)" stroke="#666" stroke-width="0.5"/>
+    <circle cx="100" cy="50" r="4" fill="url(#silverKeys)" stroke="#666" stroke-width="0.5"/>
+    
+    <!-- 下管按键 -->
+    <circle cx="100" cy="80" r="4" fill="url(#silverKeys)" stroke="#666" stroke-width="0.5"/>
+    <circle cx="100" cy="95" r="4" fill="url(#silverKeys)" stroke="#666" stroke-width="0.5"/>
+    <circle cx="100" cy="110" r="4" fill="url(#silverKeys)" stroke="#666" stroke-width="0.5"/>
+    
+    <!-- 侧面按键/连杆 -->
+    <rect x="105" y="70" width="5" height="30" rx="1" fill="url(#silverKeys)" />
+
+    <!-- 6. 二节 (吹嘴连接处) -->
+    <rect x="88" y="25" width="24" height="5" fill="#333" />
+
+    <!-- 7. 吹嘴 -->
+    <path d="M92 25 L 92 10 L 108 10 L 108 25" fill="#333" stroke="#111" stroke-width="1"/>
+    
+    <!-- 哨片 -->
+    <rect x="93" y="12" width="14" height="13" fill="#d4af37" opacity="0.8"/>
+    
+    <!-- 卡子 (固定哨片的金属环) -->
+    <rect x="91" y="20" width="18" height="2" fill="#silver"/>
+
+  </g>
+</svg>

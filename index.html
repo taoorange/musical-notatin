@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>五线谱标注工具</title>
+
+    <base href="/" />
+
+    <meta name="color-scheme" content="light" />
+    <meta
+      name="viewport"
+      content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/five-line-staff-192.png" />
+
+    <!-- add to homescreen for ios -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="五线谱" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <style>
+      /* 与 src/components/MusicScoreLoading.vue 视觉对齐：渐变毛玻璃遮罩 + 玻璃卡片 + musical-note 路径跳动（无阶段文案） */
+      .boot-loading {
+        position: fixed;
+        inset: 0;
+        z-index: 50000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: auto;
+      }
+
+      .boot-loading--hidden {
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.22s ease;
+      }
+
+      .boot-loading__backdrop {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          125deg,
+          rgba(15, 23, 42, 0.38) 0%,
+          rgba(30, 58, 138, 0.32) 45%,
+          rgba(15, 23, 42, 0.42) 100%
+        );
+        backdrop-filter: blur(10px) saturate(1.35);
+        -webkit-backdrop-filter: blur(10px) saturate(1.35);
+        animation: boot-music-loading-backdrop 3.2s ease-in-out infinite;
+      }
+
+      .boot-loading__content {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 1.75rem 2.25rem;
+        max-width: min(92vw, 22rem);
+        border-radius: 20px;
+       
+      }
+
+      .boot-loading__notes {
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        gap: 1.35rem;
+        min-height: 52px;
+      }
+
+      .boot-loading__note {
+        display: inline-flex;
+        align-items: flex-end;
+        justify-content: center;
+        animation: boot-music-note-bounce 1.05s ease-in-out infinite;
+      }
+
+      .boot-loading__note--a {
+        color: #2563eb;
+        filter: drop-shadow(0 2px 8px color-mix(in srgb, #2563eb 35%, transparent));
+      }
+
+      .boot-loading__note--b {
+        color: #3dc2ff;
+        filter: drop-shadow(0 2px 8px color-mix(in srgb, #3dc2ff 35%, transparent));
+      }
+
+      .boot-loading__note--i1 {
+        animation-duration: 1.15s;
+      }
+
+      .boot-loading__note--i2 {
+        animation-duration: 0.95s;
+      }
+
+      .boot-loading__note-svg {
+        display: block;
+        width: 40px;
+        height: 40px;
+        animation: boot-music-note-hue 2.8s ease-in-out infinite;
+      }
+
+      .boot-loading__note--i1 .boot-loading__note-svg {
+        animation-delay: 0.35s;
+      }
+
+      .boot-loading__note--i2 .boot-loading__note-svg {
+        animation-delay: 0.7s;
+      }
+
+      @keyframes boot-music-loading-backdrop {
+        0%,
+        100% {
+          backdrop-filter: blur(10px) saturate(1.35);
+          -webkit-backdrop-filter: blur(10px) saturate(1.35);
+          opacity: 1;
+        }
+        50% {
+          backdrop-filter: blur(18px) saturate(1.55);
+          -webkit-backdrop-filter: blur(18px) saturate(1.55);
+          opacity: 0.96;
+        }
+      }
+
+      @keyframes boot-music-note-bounce {
+        0%,
+        100% {
+          transform: translateY(0) scale(1);
+        }
+        40% {
+          transform: translateY(-14px) scale(1.05);
+        }
+        55% {
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      @keyframes boot-music-note-hue {
+        0%,
+        100% {
+          opacity: 1;
+          filter: brightness(1);
+        }
+        50% {
+          opacity: 0.88;
+          filter: brightness(1.12);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .boot-loading__backdrop {
+          animation: none;
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+        }
+
+        .boot-loading__note {
+          animation: none;
+        }
+
+        .boot-loading__note-svg {
+          animation: none;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="boot-loading" class="boot-loading" role="status" aria-live="polite" aria-busy="true">
+      <div class="boot-loading__backdrop"></div>
+      <div class="boot-loading__content">
+        <div class="boot-loading__notes" aria-hidden="true">
+          <span class="boot-loading__note boot-loading__note--a boot-loading__note--i0" style="animation-delay: 0s">
+            <svg
+              class="boot-loading__note-svg"
+              viewBox="0 0 1024 1024"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path
+                fill="currentColor"
+                d="M926.72 267.946667v49.92c0 41.813333-16.64 77.653333-46.08 98.56-18.346667 13.653333-40.96 20.053333-64.426667 20.053333-14.506667 0-29.013333-2.133333-43.946666-7.253333l-229.546667-76.373334V768c0 111.786667-90.88 202.666667-202.666667 202.666667S137.386667 879.786667 137.386667 768s90.88-202.666667 202.666666-202.666667c53.76 0 102.4 21.333333 138.666667 55.466667V170.666667c0-41.386667 17.066667-77.226667 46.506667-98.56 29.44-20.906667 68.693333-25.6 107.946666-12.8l188.586667 63.146666c58.026667 19.2 104.96 84.48 104.96 145.493334z"
+              />
+            </svg>
+          </span>
+          <span class="boot-loading__note boot-loading__note--b boot-loading__note--i1" style="animation-delay: 0.16s">
+            <svg
+              class="boot-loading__note-svg"
+              viewBox="0 0 1024 1024"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path
+                fill="currentColor"
+                d="M974.4 0L313.6 144s-49.6 11.2-49.6 48v651.2c-24-8-52.8-11.2-81.6-11.2C81.6 832 0 875.2 0 928s81.6 96 182.4 96 182.4-43.2 182.4-96V417.6l561.6-118.4v400c-24-6.4-52.8-11.2-83.2-11.2-100.8 0-182.4 43.2-182.4 96s81.6 96 182.4 96S1024 836.8 1024 784V48c0-27.2-22.4-48-49.6-48z"
+              />
+            </svg>
+          </span>
+          <span class="boot-loading__note boot-loading__note--a boot-loading__note--i2" style="animation-delay: 0.32s">
+            <svg
+              class="boot-loading__note-svg"
+              viewBox="0 0 1024 1024"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path
+                fill="currentColor"
+                d="M926.72 267.946667v49.92c0 41.813333-16.64 77.653333-46.08 98.56-18.346667 13.653333-40.96 20.053333-64.426667 20.053333-14.506667 0-29.013333-2.133333-43.946666-7.253333l-229.546667-76.373334V768c0 111.786667-90.88 202.666667-202.666667 202.666667S137.386667 879.786667 137.386667 768s90.88-202.666667 202.666666-202.666667c53.76 0 102.4 21.333333 138.666667 55.466667V170.666667c0-41.386667 17.066667-77.226667 46.506667-98.56 29.44-20.906667 68.693333-25.6 107.946666-12.8l188.586667 63.146666c58.026667 19.2 104.96 84.48 104.96 145.493334z"
+              />
+            </svg>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
